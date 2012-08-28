@@ -1,0 +1,41 @@
+The aim of this tool is to print instantaneous bitrate of the packets. The tool supports filters in libcap utils. 
+
+The sample input 
+<program_name> <tracefile/interface> <filter options>
+
+Example
+This program is installed as instantaneous_bitrate on the XPS (194.47.151.109)
+Sample input
+instantaneous_bitrate   trace-872-1.cap 
+
+Sample output
+<packet number> <Start time (relative)> <IAT (s)> <Packet_size (Bytes)> <Instantaneous Bitrate (bps)> 
+1       0.000000000000  0.082802295500  138     13332.000000000000
+2       0.082802295500  7.184316337250  70      77.000000000000
+3       7.267118632750  0.191370546750  78      3260.000000000000
+4       7.458489179500  0.098104238500  60      4892.000000000000
+5       7.556593418000  0.043848931750  60      10946.000000000000
+
+# This program can also be used as a debgging tool to print bitrates above threshold bitrate , and we can aslo control the number of samples to print
+
+In the example below, we would like to print 10 samples above 100 Mbps in the test trace.
+
+Sample Input
+xvk@xrk-desktop:~/Instantaneous_bitrate$ instantaneous_bitrate trace-872-1.cap -m 10 -r 100e6
+m flag controls the number of packets to print
+r flag controls the threshold bitrate ( 100 Mbps in this case)
+
+Sample Output
+901     60.957002580000         0.000005304750  107     161364814.000000000000
+4612    97.434359550250         0.000001549750  108     557509275.000000000000
+5996    111.076648771750        0.000005483500  115     167776055.000000000000
+6650    117.496746063000        0.000007033500  94      106916897.000000000000
+7425    125.135586977000        0.000000178750  89      3983216785.000000000000
+7441    125.297972917500        0.000004887500  106     173503836.000000000000
+9062    141.297408163500        0.000001192000  107     718120805.000000000000
+10606   156.412299692500        0.000002563000  108     337104955.000000000000
+13163   181.594257056500        0.000002444000  95      310965630.000000000000
+13613   186.053677976000        0.000002741750  106     309291510.000000000000
+
+
+
