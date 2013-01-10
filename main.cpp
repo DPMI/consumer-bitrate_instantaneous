@@ -132,7 +132,8 @@ static int payLoadExtraction(int level, const cap_head* caphead) {
 
 	switch(ntohs(ether->h_proto)) {
 	case ETHERTYPE_IP:/* Packet contains an IP, PASS TWO! */
-		ip_hdr = (struct ip*)(caphead->payload + sizeof(cap_header) + sizeof(struct ethhdr));
+		ip_hdr = (struct ip*)(caphead->payload + sizeof(struct ethhdr));
+		//		const void* payload = ((const char*)eth) + sizeof(struct ethhdr);		
 	  ipv4:
 
 		// payload size at network  (transport+app)
@@ -158,6 +159,7 @@ static int payLoadExtraction(int level, const cap_head* caphead) {
 	case ETHERTYPE_VLAN:
 		ip_hdr = (struct ip*)(caphead->payload + sizeof(cap_header) + sizeof(struct ether_vlan_header));
 		vlan_offset = 4;
+		fprintf(stderr, "ETHERNET VLAN adjusted.\n");
 		goto ipv4;
 
 	case ETHERTYPE_IPV6:
@@ -188,7 +190,7 @@ static int payLoadExtraction(int level, const cap_head* caphead) {
 
 int main(int argc, char **argv){
   /* extract program name from path. e.g. /path/to/MArCd -> MArCd */
-  int level;	
+  int level=0;	
   int payLoadSize, payLoadSize_bits;
   qd_real session_time;
   double threshold_bitrate = 0.00001 ;
